@@ -1,0 +1,14 @@
+.login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.input-block {
+  margin-top: 0.5rem;
+}
+
+label {
+  display: block;
+}

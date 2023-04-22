@@ -1,4 +1,5 @@
 import { initializeApp } from 'firebase/app'
+import { getFirestore, doc, setDoc } from 'firebase/firestore'
 import { signIn } from '../utils/firebase'
 // require('dotenv').config()
 
@@ -21,8 +22,9 @@ const firebaseConfig = {
 }
 
 const app = initializeApp(firebaseConfig)
+const db = getFirestore(app)
 
-var loginForm = document.querySelector('form')
+const loginForm = document.querySelector('form')
 
 // Login
 loginForm.addEventListener('submit', async (e) => {
@@ -33,15 +35,23 @@ loginForm.addEventListener('submit', async (e) => {
   const { user, error } = await signIn(email, password)
   if (user) {
     console.log(user)
+
+    // Set cookie
     document.cookie = `user_id=${
       user.uid
     }; authenticated=true; expires=${new Date(
       Date.now() + 86400000,
     ).toUTCString()}; path=/`
+
+    // Pushing the user object to firestore with the key "isEligibleForFood"
+    await setDoc(doc(db, 'users', user.uid), {
+      uid: user.uid,
+      isEligibleForFood: true,
+    })
+
+    // Navigate the page to dashboard.html
     window.location.href = 'dashboard.html'
   } else {
     document.cookie = 'authenticated=false; path=/'
   }
 })
-
-// Dashboard

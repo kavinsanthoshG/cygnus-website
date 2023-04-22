@@ -12,3 +12,15 @@ STORAGE_BUCKET=cygnus-website.....appspot.com
 MESSAGING_SENDER_ID=1148......
 APP_ID=1:11...........:web:cdef.............
 ```
+
+### Start the application in dev mode
+
+```
+npm start
+```
+
+### Production build
+
+```
+npm run build
+```
